@@ -41,7 +41,7 @@
     remote_src: yes
 
 - name: Move Files
-  shell: rsync -r /var/www/html/templatemo_526_vanilla/*  /var/www/html/
+  shell: rsync -r /var/www/html/templatemo_526_vanilla/* /var/www/html/
   notify: Redhat restart httpd
 
 - name: Attempt to change ownership on directory
