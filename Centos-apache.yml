@@ -1,0 +1,53 @@
+- name: Install httpd
+  yum:
+    name: httpd
+    state: lates
+
+- name: Start httpd
+  service:
+    name: httpd
+    state: started
+    enabled: yes
+
+- name: Enable httpd
+  systemd:
+    name: httpd
+    enabled: yes
+    masked: no
+
+- selinux:
+    policy: targeted
+    state: permissive
+- name: Permanently disable
+  lineinfile:
+    path: /etc/sysconfig/selinux
+    regexp: '^SELINUX=enforcing'
+    line: 'SELINUX=disabled'
+
+- name: Install unzip
+  yum:
+    name: unzip
+    state: latest
+
+- name: Download Templates
+  get_url:
+    url: https://www.free-css.com/assets/files/free-css-templates/download/page259/vanilla.zip
+    dest: /var/www/html
+
+- name: unzip file
+  unarchive:
+    src: /var/www/html/vanilla.zip
+    dest: /var/www/html
+    remote_src: yes
+
+- name: Move Files
+  shell: rsync -r /var/www/html/templatemo_526_vanilla/*  /var/www/html/
+  notify: Redhat restart httpd
+
+- name: Attempt to change ownership on directory
+  file:
+    path: /var/www/html
+    state: directory
+    recurse: yes
+    owner: apache
+    group: apache
