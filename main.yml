@@ -1,0 +1,19 @@
+- hosts: all
+  handlers:
+  - name: Redhat restart httpd
+    service:
+      name: httpd
+      state: restarted
+  
+  - name: Debian restart apache
+    service:
+      name: apache2
+      state: restarted
+  
+  tasks:
+  - include_tasks: "{{ ansible_pkg_mgr }}-apache.yml"
+- hosts: all
+  tasks:
+  - name: Debug
+    debug:
+      msg: "Successfully Comlpeted"  
