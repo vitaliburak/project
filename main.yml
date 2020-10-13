@@ -9,11 +9,13 @@
     service:
       name: apache2
       state: restarted
-  
   tasks:
-  - include_tasks: "{{ ansible_pkg_mgr }}-apache.yml"
+  - include_tasks: "{{ ansible_os_family }}-apache.yml"
+
 - hosts: all
+  vars_files:
+  - vars.yml
   tasks:
   - name: Debug
     debug:
-      msg: "Successfully Comlpeted"  
+      msg: Instance {{ ansible_os_family }} {{ text }}

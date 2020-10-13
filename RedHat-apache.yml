@@ -1,7 +1,7 @@
 - name: Install httpd
   yum:
     name: httpd
-    state: lates
+    state: latest
 
 - name: Start httpd
   service:
